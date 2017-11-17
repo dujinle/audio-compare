@@ -1,1 +1,50 @@
-#info = audioinfo('./testinga.wav');tmp_file = './hello.wav';tmp1_file = './hello1.wav';[data,sample] = audioread(tmp_file);[d1,s1] = audioread(tmp1_file);data = double(data);d1 = double(d1);subplot(441);plot(data);title('origion1 data');subplot(445);plot(d1);title('origion2 data');data = filter([1 -0.9375],1,data);  #Ô¤¼ÓÖØd1 = filter([1 -0.9375],1,d1);      #Ô¤¼ÓÖØsubplot(442);plot(data);title('pre-emphasis data');subplot(446);plot(d1);title('pre-emphasis d1');[frame,t] = enframe(data,256,80);   #·ÖÖ¡[f1,t] = enframe(d1,256,80);        #·ÖÖ¡m = creat_mel(frame,sample);m1 = creat_mel(f1,s1);subplot(443);plot(m);title('melbankm data');subplot(447);plot(m1);title('melbankm data');%ÇóÈ¡ÖÊÐÄ ºÍ ¾ùÖµcr = zeros(2,size(frame,1));for i = 1:size(frame,1)  y = frame(i,:);  [c,r] = centeroid(y,32);  cr(1,i) = c;  cr(2,i) = r;endcr1 = zeros(2,size(f1,1));for i = 1:size(f1,1)  y = f1(i,:);  [c,r] = centeroid(y,32);  cr1(1,i) = c;  cr1(2,i) = r;endsubplot(444);plot(cr(1,:));title('center data');subplot(448);plot(cr1(1,:));title('center1 data');subplot(4,4,9);plot(cr(2,:));title('zhixin data');subplot(4,4,13);plot(cr1(2,:));title('zhixin1 data');
+
+tmp_file = './hello.wav';
+tmp1_file = './hello1.wav';
+save_file = './hello_data.s';
+save1_file = './hello1_data.s';
+[data,sample] = audioread(tmp_file);
+[d1,s1] = audioread(tmp1_file);
+save(save_file,'data');
+save(save1_file,'d1');
+data = double(data);
+d1 = double(d1);
+subplot(251);plot(data);title('Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(256);plot(d1);title('Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+
+data = filter([1 -0.9375],1,data);  %Ô¤ï¿½ï¿½ï¿½ï¿½
+d1 = filter([1 -0.9375],1,d1);      %Ô¤ï¿½ï¿½ï¿½ï¿½
+subplot(252);plot(data);title('Ô¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(257);plot(d1);title('Ô¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+
+[frame,t] = enframe(data,256,80);   %ï¿½ï¿½ï¿½Ý·ï¿½Ö¡
+[f1,t1] = enframe(d1,256,80);        %ï¿½ï¿½ï¿½Ý·ï¿½Ö¡
+
+m = creat_mel(frame,sample);
+m1 = creat_mel(f1,s1);
+subplot(253);plot(m);title('melï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(258);plot(m1);title('melï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+
+%ï¿½ï¿½ï¿½ï¿½Ã¿Ö¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Í¾ï¿½ï¿½ï¿½ï¿½ï¿½
+cr = zeros(2,size(frame,1));
+for i = 1:size(frame,1)
+  y = frame(i,:);
+  [c,r] = centeroid(y,32);
+  cr(1,i) = c;
+  cr(2,i) = r;
+end
+
+cr1 = zeros(2,size(f1,1));
+for i = 1:size(f1,1)
+  y = f1(i,:);
+  [c,r] = centeroid(y,32);
+  cr1(1,i) = c;
+  cr1(2,i) = r;
+end
+
+subplot(254);plot(cr(1,:));title('Ã¿Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(259);plot(cr1(1,:));title('Ã¿Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(2,5,5);plot(cr(2,:));title('Ã¿Ö¡ï¿½Ä¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(2,5,10);plot(cr1(2,:));title('Ã¿Ö¡ï¿½Ä¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+%{
+%}

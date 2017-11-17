@@ -15,7 +15,9 @@ function [c,r] = centeroid(f,sub_bans)
     step = step + 1;
     idx = idx + j;
   end
-  jm = mm = m2 = 0;
+  jm = 0;
+  mm = 0;
+  m2 = 0;
   for i = 1:sub_bans
     jm = jm + i * m(i);
     mm = mm + m(i);
