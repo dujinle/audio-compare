@@ -5,13 +5,13 @@ save_file = './hello_data.s';
 save1_file = './hello1_data.s';
 [data,sample] = audioread(tmp_file);
 [d1,s1] = audioread(tmp1_file);
-save(save_file,'data');
-save(save1_file,'d1');
+%save(save_file,'data');
+%save(save1_file,'d1');
 data = double(data);
 d1 = double(d1);
 subplot(251);plot(data);title('ԭʼ���� ����');
 subplot(256);plot(d1);title('ԭʼ���� ����');
-
+%{
 data = filter([1 -0.9375],1,data);  %Ԥ����
 d1 = filter([1 -0.9375],1,d1);      %Ԥ����
 subplot(252);plot(data);title('Ԥ���� ����');
@@ -46,5 +46,4 @@ subplot(254);plot(cr(1,:));title('ÿ֡������ ����');
 subplot(259);plot(cr1(1,:));title('ÿ֡������ ����');
 subplot(2,5,5);plot(cr(2,:));title('ÿ֡�ľ����� ����');
 subplot(2,5,10);plot(cr1(2,:));title('ÿ֡�ľ����� ����');
-%{
 %}

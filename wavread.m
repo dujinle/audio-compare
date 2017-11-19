@@ -1,6 +1,64 @@
 function [data,sample] = wavread(filename)
-%¶ÁÈ¡wav¸ñÊ½µÄÎÄ¼ş audioread ´æÔÚ¹éÒ»»¯²Ù×÷ ²»ÊÇÔ­Ê¼µÄÊı¾İ
-%ÑĞ¾¿ÆğÀ´ÓĞÒ»Ğ©ÎÊÌâ ¹Ê ÖØĞÂ±àĞ´wavÊı¾İ½âÎöº¯Êı
-% filename wavÎÄ¼ş 8k16bit 16k16bit alawÊı¾İ
-% data wavÊı¾İµÄÊı¾İÖµ
-% sample wavÎÄ¼şµÄ²ÉÑùÂÊ
+%è¯»å–wavæ ¼å¼çš„æ–‡ä»¶ audioread å­˜åœ¨å½’ä¸€åŒ–æ“ä½œ ä¸æ˜¯åŸå§‹çš„æ•°æ®
+%ç ”ç©¶èµ·æ¥æœ‰ä¸€äº›é—®é¢˜ æ•… é‡æ–°ç¼–å†™wavæ•°æ®è§£æå‡½æ•°
+% filename wavæ–‡ä»¶ 8k16bit 16k16bit alawæ•°æ®
+% data wavæ•°æ®çš„æ•°æ®å€¼
+% sample wavæ–‡ä»¶çš„é‡‡æ ·ç‡
+	fid = fopen(filename);
+	riff = fgets(fid,4);
+	if (isequal(riff,'RIFF') == 0)
+		error('not the riff flag');
+	end
+	lens = fread(fid,1,'int');
+	wave = fgets(fid,4);
+	if (isequal(wave,'WAVE') == 0)
+		error('not the wave flag');
+	end
+	fmt = fgets(fid,4);
+	if (isequal(fmt,'fmt ') == 0)
+		error('not the fmt');
+	end
+	fmt_size = fread(fid,1,'int');
+	format = fread(fid,1,'short');
+	channel = fread(fid,1,'short');
+	sample = fread(fid,1,'int');
+	datarate = fread(fid,1,'int');
+	samnbit = fread(fid,1,'short');
+	sambit = fread(fid,1,'short');
+	dataflg = fgets(fid,4);
+	if (isequal(dataflg,'data') == 0)
+		fseek(fid,-4,0);
+		fact = fgets(fid,4);
+		if (isequal(fact,'fact') == 0)
+			fseek(fid,-4,0);
+			tmp = fread(fid,1,'short');
+		end
+	end
+	dataflg = fgets(fid,4);
+	if (isequal(dataflg,'data') == 0)
+		fseek(fid,-4,0);
+		fact = fgets(fid,4);
+		if (isequal(fact,'fact') == 0)
+			error('not found the data flag');
+		else
+			tmp = fread(fid,2,'int');
+		end
+	end
+	dataflg = fgets(fid,4);
+	if (isequal(dataflg,'data') == 0)
+		error('not found the data flag');
+	end
+	datasize = fread(fid,1,'int');
+	
+	data = fread(fid,datasize,'char');
+	format
+	channel
+	sample
+	datarate
+	samnbit
+	sambit
+	length(data)
+	max_data = max(data);
+	%data = data / max_data;
+	save('./ttt.t','data');
+end
