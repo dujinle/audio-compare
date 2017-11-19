@@ -1,6 +1,6 @@
 
-tmp_file = './hello.wav';
-tmp1_file = './hello1.wav';
+tmp_file = './wavdata/hello.wav';
+tmp1_file = './wavdata/hello1.wav';
 save_file = './hello_data.s';
 save1_file = './hello1_data.s';
 [data,sample] = audioread(tmp_file);

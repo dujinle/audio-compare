@@ -25,32 +25,16 @@ function [data,sample] = wavread(filename)
 	datarate = fread(fid,1,'int');
 	samnbit = fread(fid,1,'short');
 	sambit = fread(fid,1,'short');
-	dataflg = fgets(fid,4);
-	if (isequal(dataflg,'data') == 0)
-		fseek(fid,-4,0);
-		fact = fgets(fid,4);
-		if (isequal(fact,'fact') == 0)
-			fseek(fid,-4,0);
-			tmp = fread(fid,1,'short');
-		end
-	end
-	dataflg = fgets(fid,4);
-	if (isequal(dataflg,'data') == 0)
-		fseek(fid,-4,0);
-		fact = fgets(fid,4);
-		if (isequal(fact,'fact') == 0)
-			error('not found the data flag');
-		else
-			tmp = fread(fid,2,'int');
-		end
-	end
+
 	dataflg = fgets(fid,4);
 	if (isequal(dataflg,'data') == 0)
 		error('not found the data flag');
 	end
+
 	datasize = fread(fid,1,'int');
 	
-	data = fread(fid,datasize,'char');
+	sample_size = datasize / samnbit;
+	data = fread(fid,sample_size,'short');
 	format
 	channel
 	sample
@@ -59,6 +43,5 @@ function [data,sample] = wavread(filename)
 	sambit
 	length(data)
 	max_data = max(data);
-	%data = data / max_data;
-	save('./ttt.t','data');
+	data = data / max_data;
 end
