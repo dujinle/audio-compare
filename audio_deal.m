@@ -1,31 +1,38 @@
 
 tmp_file = './wavdata/hello.wav';
 tmp1_file = './wavdata/hello1.wav';
-save_file = './hello_data.s';
-save1_file = './hello1_data.s';
 [data,sample] = audioread(tmp_file);
 [d1,s1] = audioread(tmp1_file);
-%save(save_file,'data');
-%save(save1_file,'d1');
+
 data = double(data);
 d1 = double(d1);
-subplot(251);plot(data);title('Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-subplot(256);plot(d1);title('Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-%{
-data = filter([1 -0.9375],1,data);  %Ô¤ï¿½ï¿½ï¿½ï¿½
-d1 = filter([1 -0.9375],1,d1);      %Ô¤ï¿½ï¿½ï¿½ï¿½
-subplot(252);plot(data);title('Ô¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-subplot(257);plot(d1);title('Ô¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(251);plot(data);title('Ô­Ê¼Êý¾Ý Ñù±¾');
+subplot(256);plot(d1);title('Ô­Ê¼Êý¾Ý ²âÊÔ');
 
-[frame,t] = enframe(data,256,80);   %ï¿½ï¿½ï¿½Ý·ï¿½Ö¡
-[f1,t1] = enframe(d1,256,80);        %ï¿½ï¿½ï¿½Ý·ï¿½Ö¡
+data = filter([1 -0.9375],1,data);  %Ô¤¼ÓÖØ
+d1 = filter([1 -0.9375],1,d1);      %Ô¤¼ÓÖØ
+subplot(252);plot(data);title('Ô¤¼ÓÖØ Ñù±¾');
+subplot(257);plot(d1);title('Ô¤¼ÓÖØ ²âÊÔ');
+
+[frame,t] = enframe(data,256,80);   %·ÖÖ¡
+[f1,t1] = enframe(d1,256,80);        %·ÖÖ¡
+
+%Í¨¹ývad ½øÐÐÓÐÐ§ÓïÒô¼ì²â È¥³ý ¾²Òô¶Î
+[speech,silence] = vad(frame);
+[sp1,si1] = vad(f1);
+
+%»ñÈ¡ÓïÒôÆ¬¶Î
+frame = frame(speech == 1,:);
+f1 = f1(sp1 == 1,:);
+subplot(253);plot(frame);title('vad Ñù±¾');
+subplot(258);plot(f1);title('vad ²âÊÔ');
 
 m = creat_mel(frame,sample);
 m1 = creat_mel(f1,s1);
-subplot(253);plot(m);title('melï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-subplot(258);plot(m1);title('melï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
+subplot(254);plot(m);title('mfcc 12¸ö²ÎÊý Ñù±¾');
+subplot(259);plot(m1);title('mfcc 12¸ö²ÎÊý ²âÊÔ');
 
-%ï¿½ï¿½ï¿½ï¿½Ã¿Ö¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Í¾ï¿½ï¿½ï¿½ï¿½ï¿½
+%¼ÆËãÃ¿Ò»Ö¡µÄÖÊÐÄ ºÍ ¾ù·½¸ù
 cr = zeros(2,size(frame,1));
 for i = 1:size(frame,1)
   y = frame(i,:);
@@ -42,8 +49,5 @@ for i = 1:size(f1,1)
   cr1(2,i) = r;
 end
 
-subplot(254);plot(cr(1,:));title('Ã¿Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-subplot(259);plot(cr1(1,:));title('Ã¿Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-subplot(2,5,5);plot(cr(2,:));title('Ã¿Ö¡ï¿½Ä¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-subplot(2,5,10);plot(cr1(2,:));title('Ã¿Ö¡ï¿½Ä¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½');
-%}
+subplot(255);plot(cr(1,:)); hold on; plot(cr1(1,:));title('ÖÊÐÄ');legend('Ñù±¾','²âÊÔ');hold off;
+subplot(2,5,10);plot(cr(2,:)); hold on; plot(cr1(2,:)); title('¾ù·½¸ù');legend('Ñù±¾','²âÊÔ');hold off;

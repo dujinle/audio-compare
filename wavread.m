@@ -1,9 +1,9 @@
 function [data,sample] = wavread(filename)
-%è¯»å–wavæ ¼å¼çš„æ–‡ä»¶ audioread å­˜åœ¨å½’ä¸€åŒ–æ“ä½œ ä¸æ˜¯åŸå§‹çš„æ•°æ®
-%ç ”ç©¶èµ·æ¥æœ‰ä¸€äº›é—®é¢˜ æ•… é‡æ–°ç¼–å†™wavæ•°æ®è§£æå‡½æ•°
-% filename wavæ–‡ä»¶ 8k16bit 16k16bit alawæ•°æ®
-% data wavæ•°æ®çš„æ•°æ®å€¼
-% sample wavæ–‡ä»¶çš„é‡‡æ ·ç‡
+%¶ÁÈ¡wav¸ñÊ½µÄÎÄ¼ş audioread ´æÔÚ¹éÒ»»¯²Ù×÷ ²»ÊÇÔ­Ê¼µÄÊı¾İ
+%ÑĞ¾¿ÆğÀ´ÓĞÒ»Ğ©ÎÊÌâ ¹Ê ÖØĞÂ±àĞ´wavÊı¾İ½âÎöº¯Êı
+% filename wavÎÄ¼ş 8k16bit 16k16bit alawÊı¾İ
+% data wavÊı¾İµÄÊı¾İÖµ
+% sample wavÎÄ¼şµÄ²ÉÑùÂÊ
 	fid = fopen(filename);
 	riff = fgets(fid,4);
 	if (isequal(riff,'RIFF') == 0)
