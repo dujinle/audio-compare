@@ -1,7 +1,8 @@
 
 tmp_file = './wavdata/hello.wav';
-tmp1_file = './wavdata/hello1.wav';
-%tmp1_file = './wavdata/zhengqiang_hello1.wav';
+%tmp1_file = './wavdata/hello1.wav';
+%tmp1_file = './wavdata/wode.wav';
+tmp1_file = './wavdata/zhengqiang_hello1.wav';
 [data,sample] = audioread(tmp_file);
 [d1,s1] = audioread(tmp1_file);
 
@@ -43,6 +44,6 @@ cr1 = centeroid(f1,32);
 subplot(2,6,6);plot(cr(:,1)); hold on; plot(cr1(:,1));title('质心');legend('样本','测试');hold off;
 subplot(2,6,12);plot(cr(:,2)); hold on; plot(cr1(:,2)); title('均方根');legend('样本','测试');hold off;
 dist1 = dtw(m,m1) / (size(m,1) * size(m1,1));
-dist1
+disp(sprintf('%s->%s:mfcc dist:%f\n',tmp_file,tmp1_file,dist1));
 dist2 = dtw(cr,cr1)/(size(m,1) * size(m1,1));
-dist2
+disp(sprintf('%s->%s:centeroid dist:%f\n',tmp_file,tmp1_file,dist2));
