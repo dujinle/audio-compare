@@ -1,1 +1,1 @@
-function r = compare_t(a,b)% 计算两个 向量的欧式距离% length(a) == length(b)  r = 0;  for i = 1:length(a)    if a(i) == b(i)      r = r + 0;    else      r = r + (a(i) - b(i))^2 / (a(i)^2 - b(i)^2)^2;    end  endend
+function r = compare_t(a,b)% 计算两个 向量的欧式距离% length(a) == length(b)	am = (a - b).^2;	an = a.^2 - b.^2;	if an == 0		r = 0	else		r = sum(am ./ an);	endend

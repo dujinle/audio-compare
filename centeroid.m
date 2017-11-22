@@ -14,7 +14,7 @@ function cr = centeroid(frame,sub_bans)
 		end
 		ja = linspace(1,sub_bans,sub_bans);
 		c = sum(mj .* ja) / sum(mj);
-		r = sum(mj.^2) / sub_bans;
+		r = sqrt(sum(mj.^2) / sum(mj)^2 /sub_bans);
 		cr(i,:) = [c,r];
 	end
 end

@@ -2,7 +2,8 @@
 tmp_file = './wavdata/jttqbc.wav';
 %tmp1_file = './wavdata/hello1.wav';
 %tmp1_file = './wavdata/wode.wav';
-tmp1_file = './wavdata/zhengqiang_hello1.wav';
+%tmp1_file = './wavdata/zhengqiang_hello1.wav';
+tmp1_file = './wavdata/jttqbc1.wav';
 [data,sample] = audioread(tmp_file);
 [d1,s1] = audioread(tmp1_file);
 
@@ -42,9 +43,40 @@ cr1 = centeroid(f1,32);
 
 subplot(2,6,6);plot(cr(:,1)); hold on; plot(cr1(:,1));title('质心');legend('样本','测试');hold off;
 subplot(2,6,12);plot(cr(:,2)); hold on; plot(cr1(:,2)); title('均方根');legend('样本','测试');hold off;
-dist1 = dtw(m,m1);
-disp(sprintf('%s->%s:mfcc dist:%f\n',tmp_file,tmp1_file,dist1));
-dist2 = dtw(cr,cr1);
-disp(sprintf('%s->%s:centeroid dist:%f\n',tmp_file,tmp1_file,dist2));
+%dist1 = dtw(m,m1);
+%disp(sprintf('%s->%s:mfcc dist:%f\n',tmp_file,tmp1_file,dist1));
+%dist2 = dtw(cr,cr1);
+%disp(sprintf('%s->%s:centeroid dist:%f\n',tmp_file,tmp1_file,dist2));
+
+m_len = size(m,1);
+m1_len = size(m1,1);
+%判断是否 样本长度 大于 测试数据长度
+k = m1_len - m_len;
+disp(sprintf('%s->%s:frame laze:%d\n',tmp_file,tmp1_file,k));
+if k <= 0
+	mt = m1;
+	crt = cr1;
+	for i = 1:-k
+		mt(end + i,:) = zeros(1,size(m,2));
+		crt(end + i,:) = zeros(1,size(cr,2));
+	end
+	fdist = mel_comp(m,mt);
+	disp(sprintf('%s->%s:mel comp dist:%f\n',tmp_file,tmp1_file,fdist));
+	fc = compare_t(cr(:,1),crt(:,1));
+	disp(sprintf('%s->%s:c comp dist:%f\n',tmp_file,tmp1_file,fc));
+	fr = compare_t(cr(:,2),crt(:,2));
+	disp(sprintf('%s->%s:r comp dist:%f\n',tmp_file,tmp1_file,fr));
+else
+	for i = 1:k
+		mt = m1(i:m_len + i - 1,:);
+		crt = cr1(i:m_len + i - 1,:);
+		fdist = mel_comp(m,mt);
+		disp(sprintf('%s->%s:mel comp dist:%f\n',tmp_file,tmp1_file,fdist));
+		fc = compare_t(cr(:,1),crt(:,1));
+		disp(sprintf('%s->%s:c comp dist:%f\n',tmp_file,tmp1_file,fc));
+		fr = compare_t(cr(:,2),crt(:,2));
+		disp(sprintf('%s->%s:r comp dist:%f\n',tmp_file,tmp1_file,fr));
+	end
+end
 %{
 %}
